@@ -2,7 +2,7 @@
 
 ```Dockerfile``` to run docker-registry inside a docker container.
 The ```registry```  daemon will run as the librarian user. The uid/gid is mapped
-50000.
+to 50000.
 
 ## Installation
 
