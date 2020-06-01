@@ -1,4 +1,5 @@
-FROM stafwag/debian_i386:buster
+# FROM stafwag/debian_i386:buster
+FROM debian:buster
 LABEL maintainer "staf wagemakers <staf@wagemakers.be>"
 
 RUN apt-get update  -y
