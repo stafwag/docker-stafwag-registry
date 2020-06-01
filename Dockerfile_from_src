@@ -1,0 +1,50 @@
+FROM stafwag/debian_i386:buster
+LABEL maintainer "staf wagemakers <staf@wagemakers.be>"
+
+RUN apt-get update  -y
+RUN apt-get dist-upgrade -y
+
+RUN groupadd librarian -g 50000
+RUN useradd librarian -u 50000 -d /home/librarian -s /usr/sbin/nologin -g librarian
+RUN mkdir /home/librarian
+RUN chown librarian:librarian /home/librarian
+
+RUN apt-get install -y wget
+RUN apt-get install -y make git
+RUN apt-get install -y golang
+RUN apt-get install -y apache2-utils
+RUN apt-get install -y ca-certificates
+RUN apt-get install -y procps
+
+ENV GO_DIR="/home/librarian/go"
+ENV GO_SRC_DIR="${GO_DIR}/src"
+ENV GO_SRC_DOCKER="${GO_SRC_DIR}/github.com/docker"
+ENV GO_SRC_DOCKER_DISTRIBUTION="${GO_SRC_DOCKER}/distribution"
+ENV DOCKER_DISTRIBUTION_VERSION="v2.7.1"
+ENV GOPATH=$GO_DIR
+
+RUN mkdir -p $GO_DIR
+RUN mkdir -p $GO_SRC_DIR
+RUN mkdir -p $GO_SRC_DOCKER
+
+RUN cd $GO_SRC_DOCKER && git clone https://github.com/docker/distribution.git
+WORKDIR $GO_SRC_DOCKER_DISTRIBUTION
+RUN git checkout $DOCKER_DISTRIBUTION_VERSION
+RUN make clean
+RUN make
+
+ENV PREFIX=/
+
+RUN mkdir -p ${PREFIX}/etc/docker/registry/
+RUN cp ./bin/registry ${PREFIX}/usr/bin/
+COPY etc/docker/registry/ ${PREFIX}/etc/docker/registry
+RUN chown root:librarian ${PREFIX}/etc/docker/registry/*
+RUN chmod 640 ${PREFIX}/etc/docker/registry/*
+
+USER librarian
+WORKDIR /home/librarian
+
+VOLUME ["/var/lib/registry"]
+EXPOSE 5000
+
+ENTRYPOINT ["/usr/bin/registry","serve","/etc/docker/registry/config.yml"]

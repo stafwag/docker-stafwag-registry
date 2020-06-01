@@ -13,8 +13,30 @@ $ git clone https://github.com/stafwag/docker-stafwag-registry.git
 $ cd docker-stafwag-registry
 ```
 
-### Update the configuration
+### deb package or build from source
 
+2 docker files are included:
+
+* ```Dockerfile```:
+
+  The default dockerfile will use the debian ```docker-registry``` package.
+
+* ```Dockerfile_from_src```:
+
+  This will compile the docker register from source.
+  You can set the git release version in the ```Dockerfile``` with
+
+  ```ENV DOCKER_DISTRIBUTION_VERSION="v2.7.1"```
+
+
+If you want to compile the docker registry from source copy the ```Dockerfile_from_src```
+
+```
+$ cp Dockerfile Dockerfile_org
+$ cp Dockerfile_from_src Dockerfile
+```
+
+### Update the configuration
 
 ```
 $ vi etc/docker/registry/config.yml
@@ -65,7 +87,7 @@ $
 Run the docker command:
 
 ```
-docker run -d --rm --name myregistry -p 5000:5000 -v /path/to/passwd:/etc/docker/registry/passwd -v /home/volumes/docker/registry:/var/lib/registry stafwag/registry:latest
+docker run -d --rm --name myregistry -p 5000:5000 -v /path/to/passwd:/etc/docker/registry/passwd -v /home/volumes/docker/registry:/var/lib/docker-registry stafwag/registry:latest
 ```
 
 ***Have fun***
