@@ -1,4 +1,4 @@
-# docker-stafwag-registery
+# docker-stafwag-registry
 
 ```Dockerfile``` to run docker-registry inside a docker container.
 The ```registry```  daemon will run as the librarian user. The uid/gid is mapped
@@ -42,7 +42,7 @@ $ cp Dockerfile_from_src Dockerfile
 $ vi etc/docker/registry/config.yml
 ```
 
-The htpasswd authentication is enabled in the configuration
+The htpasswd authentication is enabled in the configuration.
 You can mount the ```passwd``` file as a volume.
 
 ### Build the image
