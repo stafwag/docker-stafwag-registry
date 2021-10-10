@@ -2,7 +2,7 @@
 
 ```Dockerfile``` to run docker-registry inside a docker container.
 The ```registry```  daemon will run as the librarian user. The uid/gid is mapped
-to 50000.
+to 50000. The image is based on [Debian](https://www.debian.org/).
 
 ## Installation
 
@@ -23,17 +23,19 @@ $ cd docker-stafwag-registry
 
 * ```Dockerfile_from_src```:
 
-  This will compile the docker register from source.
+  Will compile the docker register from source.
+
+  [https://github.com/distribution/distribution](https://github.com/distribution/distribution)
+
   You can set the git release version in the ```Dockerfile``` with
 
   ```ENV DOCKER_DISTRIBUTION_VERSION="v2.7.1"```
 
 
-If you want to compile the docker registry from source copy the ```Dockerfile_from_src```
+To compile the docker registry from source, you can use the ```-f Dockerfile_from_src``` argument.
 
 ```
-$ cp Dockerfile Dockerfile_org
-$ cp Dockerfile_from_src Dockerfile
+$ docker build -f Dockerfile_from_src -t stafwag/registry .
 ```
 
 ### Update the configuration
@@ -47,8 +49,16 @@ You can mount the ```passwd``` file as a volume.
 
 ### Build the image
 
+The command below builds the image image with the default ```BASE_IMAGE``` ```debian:bullseye```.
+
 ```
 $ docker build -t stafwag/registry . 
+```
+
+To use a different ```BASE_IMAGE``` use, you can use the ```--build-arg BASE_IMAGE=your_base_image```.
+
+```
+$ docker build --build-arg BASE_IMAGE=stafwag/debian:bullseye -t stafwag/registry .
 ```
 
 ### Volume and passwd file

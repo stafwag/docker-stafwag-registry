@@ -1,5 +1,6 @@
 # FROM stafwag/debian_i386:buster
-FROM debian:buster
+ARG BASE_IMAGE=debian:bullseye
+FROM $BASE_IMAGE
 LABEL maintainer "staf wagemakers <staf@wagemakers.be>"
 
 RUN apt-get update  -y
@@ -28,7 +29,7 @@ RUN mkdir -p $GO_DIR
 RUN mkdir -p $GO_SRC_DIR
 RUN mkdir -p $GO_SRC_DOCKER
 
-RUN cd $GO_SRC_DOCKER && git clone https://github.com/docker/distribution.git
+RUN cd $GO_SRC_DOCKER && git clone https://github.com/distribution/distribution
 WORKDIR $GO_SRC_DOCKER_DISTRIBUTION
 RUN git checkout $DOCKER_DISTRIBUTION_VERSION
 RUN make clean

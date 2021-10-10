@@ -1,5 +1,5 @@
 # ARG BASE_IMAGE=stafwag/debian_i386:buster
-ARG BASE_IMAGE=debian:buster
+ARG BASE_IMAGE=debian:bullseye
 FROM $BASE_IMAGE
 LABEL maintainer "staf wagemakers <staf@wagemakers.be>"
 
