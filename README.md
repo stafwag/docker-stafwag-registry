@@ -55,7 +55,7 @@ The command below builds the image image with the default ```BASE_IMAGE``` ```de
 $ docker build -t stafwag/registry . 
 ```
 
-To use a different ```BASE_IMAGE``` use, you can use the ```--build-arg BASE_IMAGE=your_base_image```.
+To use a different ```BASE_IMAGE```, you can use the ```--build-arg BASE_IMAGE=your_base_image```.
 
 ```
 $ docker build --build-arg BASE_IMAGE=stafwag/debian:bullseye -t stafwag/registry .
